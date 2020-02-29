@@ -1,0 +1,67 @@
+{
+  "name": "lista-peliculas",
+  "version": "1.0.0",
+  "description": "Consulta el resumen de las mejores peliculas psicologicas ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.jsx"
+  },
+  "engines": {
+    "node": "12.16.1"
+  },
+  "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "babel-eslint": "^10.0.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^7.0.0",
+    "dotenv-webpack": "^1.7.0",
+    "express": "^4.17.1",
+    "express-validator": "^5.3.1",
+    "firebase-admin": "^8.7.0",
+    "firebase-functions": "^3.3.0",
+    "firebase-tools": "^7.7.0",
+    "graphql": "^14.5.8",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.6.3",
+    "babel-loader": "^8.0.6",
+    "react-devtools": "^4.2.0",
+    "react-inspector": "^4.0.0",
+    "react-redux": "^7.1.1",
+    "react-select": "^3.0.8",
+    "redux": "^4.0.4",
+    "favicons-webpack-plugin": "^1.0.2",
+    "firebase": "^7.2.2",
+    "firebaseui": "^4.2.0",
+    "nodemon": "^1.18.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maikpwwq/usuario-resumen-peliculas-Node-React.git"
+  },
+  "keywords": [
+    "Seleccion",
+    "Resumen",
+    "Peliculas",
+    "Psicologicas",
+    "Cuenta",
+    "Usuario"
+  ],
+  "author": "Michael Arias <Mariasf@correo.udistrital.edu.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Maikpwwq/usuario-resumen-peliculas-Node-React/issues"
+  },
+  "homepage": "https://github.com/Maikpwwq/usuario-resumen-peliculas-Node-React#readme"
+}

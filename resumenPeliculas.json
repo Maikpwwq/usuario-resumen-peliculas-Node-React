@@ -1,0 +1,86 @@
+{
+  "peliculas": {
+    "psicologicas": {      
+        "Primer": 
+          {
+            "_id": "1",
+            "index": 0,
+            "titulo": "Primer",
+            "descripcion": "Esta película de bajo presupuesto se rodó con apenas 7 000 dólares pero eso no evitó que fuera aclamada por la crítica y un clásico moderno de las películas de viajes en el tiempo ¿Su fórmula ? Ofrecernos una mezcla creíble de conocimientos científicos para proponernos una historia en la que cuatro ingenieros consiguen descubrir un método para viajar al pasado que pondrá a prueba sus relaciones Después de verla una primera vez, puedes verla una segunda y una tercera, porque seguro que descubres algún detalle que se te ha escapado Y no exageramos ",
+            "año": "2004"
+          },
+        "Origen": 
+          {
+            "_id": "2",
+            "index": 1,
+            "titulo": "Origen",
+            "descripcion": "Posiblemente una de las mejores películas de ciencia ficción de los últimos años  Dom Cobb (Leonardo DiCaprio) es un ladrón prófugo de la justicia estadounidense que se infiltra en sueños para obtener información  El argumento parece muy descabellado, pero si por algo funciona es por su trabajo de la similitud  La historia se complica hasta un punto que te hará plantearte varias respuestas  ¿Has tenido alguna vez la sensación de no saber si has vivido o has soñado algún recuerdo? Pues de eso va el tema ",
+            "año": "2010"
+          },      
+        "Spider": 
+          {
+            "_id": "3",
+            "index": 2,
+            "titulo": "Spider",
+            "descripcion": "Dennis Cleg es un interno de un psiquiátrico que tras ser dado de alta acaba en un asilo  Allí comienza a reconstruir los recuerdos de su infancia  Un thriller psicológico de los que te hacen preguntarte sobre cómo nuestras primeras vivencias y los recuerdos que guardarnos pueden moldearnos como personas ",
+            "año": "2002"
+          },
+        "La habitación de Fermat": 
+          {
+            "_id": "4",
+            "index": 3,
+            "titulo": "La habitación de Fermat",
+            "descripcion": "Luis Piedrahíta (sí, el mago) y Rodrigo Sopeña dirigen esta película  En ella un grupo de matemáticos desconocidos entre ellos son citados a una reunión para participar en un juego que pronto se torcerá  Una buena película si te gustan los acertijos y que además es muy enriquecedora si lo que te gusta es darle al coco viéndola con alguien ",
+            "año": "2007"
+          },
+        "Interestellar": 
+          {
+            "_id": "5",
+            "index": 4,
+            "titulo": "Interestellar",
+            "descripcion": "Los hemanos Nolan nos meten de lleno en esta historia de viajes espaciales en los que la especie humana se ve obligada a explorar el espacio para encontrar otro hogar al cerciorarse de que la Tierra ha dicho basta por todos nuestros malos hábitos  Si de por sí el planteamiento ya da para pensar, esta película te dejará rota o roto si te gusta la astronomía, porque se atreve a plasmar de forma bastante imaginativa cómo son muchos de los enigmas que aún no conocemos del espacio ",
+            "año": "2014"
+          },
+        "Enemy": 
+          {
+            "_id": "6",
+            "index": 5,
+            "titulo": "Enemy",
+            "descripcion": "Jake Gyllenhaal interpreta a Adam, un profesor de historia simplón con una vida simplona hasta que un día descubre un tipo que aparentemente es un doble suyo  La historia, basada de forma libre en un libro de José Saramago, se complica hasta que ambos se conocen, y no podemos contar más, solo te diremos que tiene un trazo místico que te deja con cara de póker y que da vueltas sobre la versión más extrema del concepto de identidad ",
+            "año": "2013"
+          },
+        "Mr  Nobody": 
+          {
+            "_id": "7",
+            "index": 6,
+            "titulo": "Mr  Nobody",
+            "descripcion": "Jared Leto interpreta en esta película a Nemo, el último ser humano mortal de la Tierra después de que la ciencia haya conseguido hacer al hombre inmortal  Con una edad avanzada, Nemo recuerda varios momentos de su vida que pudieron hacerla muy diferente  Una película que hace pensar sobre las decisiones que tomamos ambientada en un formato visual extravagante ",
+            "año": "2009"
+          },
+        "El árbol de la vida": 
+          {
+            "_id": "8",
+            "index": 7,
+            "titulo": "El árbol de la vida",
+            "descripcion": "Digamos que esta película puede dejarte con cara de idiota o abrir en ti un universo de preguntas que hacerte  Ambientada en los años 50, Jack es un niño que vive dividido entre una madre tierna y un padre muy severo  El niño crece, y la película nos sumerge en sus pensamientos sobre su niñez, cómo le han marcado y en cierto modo el propio sentido de la vida  Todo ello con un modelo narrativo muy complejo que te hará estar atento pero que si conectas con él te resultará muy atractivo  La película está además llena de escenas como la creación del universo que hay que tomarse con calma, pero es de estas cintas que si alguien te pregunta si la has visto solo es para decirte que le encantó  Puede ser que porque le gustara de verdad, o porque simplemente se la tragara sin entenderla pero quiera dárselas de listo ",
+            "año": "2011"
+          },
+        "Hombre mirando al sudeste": 
+          {
+            "_id": "9",
+            "index": 8,
+            "titulo": "Hombre mirando al sudeste",
+            "descripcion": "Esta película argentina nos cuenta la historia de un tipo ingresado en un psiquiátrico que dice venir de otro planeta  Los médicos intenta tratarle para devolverle a la realidad, hasta que la realidad parece ser también muy distinta para los médicos  Si no consigues encontrar esta película puedes ver también K-PAX (2001) con Kevin Spacey, una versión no citada con el mismo argumento y la misma disposición de personajes ",
+            "año": "1987"
+          },
+        "Memento": 
+          {
+            "_id": "10",
+            "index": 9,
+            "titulo": "Memento",
+            "descripcion": "Los hermanos Nolan nos cuentan la historia de Leonard, un tipo con amnesia que no tiene la capacidad para almacenar recuerdos  Así, su vida se basa en ir anotando cosas, tatuándose recuerdos y haciendo fotos para intentar llevar una vida normal dentro de lo que cabe, hasta que descubre que su situación es culpa de un asesino que mató su mujer  Entonces se inicia una historia de venganza donde los Nolan juegan con continuos saltos temporales para contarnos qué ha llevado a Leonard hasta ese momento y flashforwards para contarnos qué va haciendo  La película es una locura, para bien y para mal ",
+            "año": "2000"
+          }        
+    }
+  }
+}
