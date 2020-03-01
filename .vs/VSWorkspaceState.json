@@ -1,8 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src"
+    "\\.git\\branches",
+    "\\.git\\info",
+    "\\.git\\logs",
+    "\\.git\\logs\\refs",
+    "\\.git\\refs",
+    "\\.git\\refs\\heads",
+    "\\.git\\refs\\tags",
+    "\\public",
+    "\\src\\peliculas"
   ],
-  "SelectedNode": "\\package.json",
+  "SelectedNode": "\\.gitignore",
   "PreviewInSolutionExplorer": false
 }
