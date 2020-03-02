@@ -1,4 +1,34 @@
-﻿<!DOCTYPE html>
+﻿import DescripcionPelicula from './peliculas/descripcionPelicula';
+
+function ListadoPeliculas({ Peliculas }) {
+
+    const { _id, index, titulo, descripcion, año } = Pelicula
+
+    const [pelicula, setPelicula] = useState((EstadoInicial) => {
+        const EstadoInicial = data.Peliculas[0];
+        return EstadoInicial;
+    }, [props.Productos]);
+
+    key = {`Carrusel-${index}`
+};
+{
+    Peliculas && Peliculas.map((Pelicula, index) => (
+        <NavLink to={{
+            pathname: `/peliculas/${index}-${Pelicula.name}`,
+            estado: { ...Peliculas }
+        }}>
+            <FichaPeliculas
+                Pelicula={Pelicula}
+
+                key={`Pelicula-${index}`}
+                id={`Pelicula-${_id}`}
+            /> No Producto Actual: {Pelicula.index}
+        </NavLink>
+    ))
+}
+
+
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />

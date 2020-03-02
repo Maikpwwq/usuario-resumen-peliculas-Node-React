@@ -3,15 +3,15 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // importar acciones
-import { setUsuario, setInicioSesion } from '../../app';
+import { setUsuario, setInicioSesion } from '../acciones.jsx';
 
 // importar firebase 
-import { auth, database } from '../../init-firebase.js';
+import * as firebase from '../../init-firebase.js';
 
 /* Style Registro */
 import styled from 'styled-components'
 
-const Registro = styled.form`
+const Registro = styled.div`
     text-align: center;
     box-sizing: border-box;
     display: block;
@@ -41,27 +41,7 @@ const RegistroVista = styled.div`
     -webkit-font-smoothing: antialiased;
 `;
 
-const RegistroSocial = styled.div`
-    padding: 24px 32px 0px 32px;
-    display: block;
-`;
-
-const RegistroConFacebook = styled.div`
-    margin-bottom: 12px;
-`;
-
-const RegistroConGmail = styled.div`
-    
-`;
-
-const RegistroDivision = styled.div`
-    width: 82%;
-    text-align: center;
-    overflow: hidden;
-    margin: 1rem auto;
-`;
-
-const RegistroConEmail = styled.div`
+const RegistroConEmail = styled.form`
     
 `;
 
@@ -123,47 +103,31 @@ const ESTADO_REPOSO = {
     email: 'email',
     telefono: 'telefono',
     clave: 'clave',
-    claveUno: 'txtclave',
-    claveDos: 'txtconfirmarclave'    
+    confirmarClave: 'confirmarClave'    
 };
 
 class PaginaRegistro extends Component {
-
-    AutorizarUsuario
-
+    
     constructor(props) {
         super(props);
         this.state = {
-            txtNombre : document.getElementById('txtNombre'),
-            txtEmail : document.getElementById('txtEmail'),
-            txtTelefono: document.getElementById('txtTelefono'),
-            txtclave: document.getElementById('txtclave'),
-            txtconfirmarclave: document.getElementById('txtconfirmarclave'),           
+            nombre : document.getElementById('txtNombre'),
+            email : document.getElementById('txtEmail'),
+            telefono: document.getElementById('txtTelefono'),
+            clave: document.getElementById('txtClave'),
+            confirmarClave: document.getElementById('txtConfirmarClave'),           
             fotoPerfil: this.props.usuario.photoURL,
             usuarioContacto: this.props.usuario.email,
-            usuarioName: this.props.usuario.displayName,
+            usuarioNombre: this.props.usuario.nombreUsuario,
             error: null,
-        }
-        this.EnviarForm = this.EnviarForm.bind(this);
-        this.firebaseusuario = this.firebaseusuario.bind(this);
+        }       
         this.onCambios = this.onCambios.bind(this);
         this.onEnviar = this.onEnviar.bind(this);      
         this.btnInicioSesion = this.btnInicioSesion.bind(this);   
-        this.btnRegistro = this.btnRegistro.bind(this);  
-        this.btnCerrarSesion = this.btnCerrarSesion.bind(this);  
     }
 
-    firebaseUsuario = () => {
-        auth().onCambioEstadoAutentificacion(this.firebaseUsuario)
-        if (this.firebaseUsuario) {
-            console.log(this.firebaseUsuario);
-        }
-        else {
-            console.log('Sin iniciar sesión aun');
-        }
-    };
-
     onCambios = (event) => {
+        // Guardar Cambios
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -190,15 +154,15 @@ class PaginaRegistro extends Component {
             .then((AutorizarUsuario) => {
                 // Create a usuario in your Firebase realtime database
                 return this.props.firebase.usuario(AutorizarUsuario.usuario.uid).set({
-                    usuarioname,
-                    email,
-                    roles,
+                    nombreUsuario: this.nombre,
+                    email: this.email,
+                    roles: null,
                 });
             })
 
             .then(() => {
                 this.setState({ ...ESTADO_REPOSO });
-                this.props.history.push('/inicio/');
+                this.props.history.push('/');
             })
 
             .catch(error => {
@@ -218,27 +182,19 @@ class PaginaRegistro extends Component {
             'email': form.get('email'),
             'telefono': form.get('telefono'),
             'clave': form.get('clave'),
-            'claveUno': form.get('claveUno'),
-            'claveDos': form.get('claveDos'),
+            'confirmarClave': form.get('confirmarClave'),
         }
 
-        database.ref('usuarios').push(usuario)
+        this.props.firebase.database.ref('usuarios').push(usuario)
             .then(response => console.log(response))
             .catch(error => console.log(error))
     };
 
     // Evento de Registro
-    btnRegistro = ('click', (event) => {
-        // Get Email and pass        
-        const email = this.txtEmail.value;
-        const clave = this.txtclave.value;
-        // Sing up
-        const promise = auth.crearUsuarioConEmailClave(email, clave);
-        // firebase.register(nombre, email, telefono, clave)
-        this.props.history.replace('/perfil')
-
-        promise
-            .catch(e => console.log(e.mensaje));
+    btnInicioSesion = ('click', (event) => {       
+        event.preventDefault(); 
+        this.props.history.replace('/inicioSesion')
+        promise.catch(e => console.log(e.mensaje));
     });    
 
     render() {
@@ -248,13 +204,8 @@ class PaginaRegistro extends Component {
             email === '' ||
             usuarioname === '';
 
-
         return (
-            <Registro
-                onSubmit={this.onEnviar}
-                action="/FormRegistro"
-                method="post"
-            >
+            <Registro>
                 <div class="Header-container u-wrapper u-clearfix">
                     <span class="LoginDivider-text"
                         data-reactid="1">
@@ -270,11 +221,15 @@ class PaginaRegistro extends Component {
 
                         <div
                             className="Loginv2-container"
-                            data-reactid="5">                          
+                            data-reactid="5">         
+                            
                             <RegistroConEmail
+                                onSubmit={this.onEnviar}
+                                action="/inicioSesion/?next="
+                                method="post"
                                 data-reactid="6">
-                                <form action="/inicioSesion/?next="
-                                    method="post" data-reactid="7">
+
+                                <form data-reactid="7">
                                     <input type="hidden"
                                         name="csrfmiddlewaretoken"
                                         value=""
@@ -347,7 +302,7 @@ class PaginaRegistro extends Component {
                                         data-reactid="13">
                                         <input type="password"
                                             name="clave"
-                                            id="txtclave"
+                                            id="txtClave"
                                             required=""
                                             autocomplete="off"
                                             placeholder="Tu clave"
@@ -368,7 +323,7 @@ class PaginaRegistro extends Component {
                                         data-reactid="38">
                                         <input type="password"
                                             name="confirmarclave"
-                                            id="txtconfirmarclave"
+                                            id="txtConfirmarClave"
                                             required=""
                                             autocomplete="off"
                                             placeholder="Confirma tu clave"
@@ -389,11 +344,12 @@ class PaginaRegistro extends Component {
                                         data-reactid="43"
                                         disabled={isInvalid}
                                         type="submit"
+                                        onClick={this.onEnviar}
                                     >
                                         <span data-reactid="44"
                                             id="btnRegistro"
                                             type="submit"
-                                            onClick={this.btnRegistro}
+                                            onClick={this.onEnviar}
                                         >Registrarse</span>
                                     </BtnRegistro>
 
@@ -413,12 +369,12 @@ class PaginaRegistro extends Component {
                                     data-reactid="48">
                                     <a href="/inicioSesion"
                                         component={NavLink}
-                                        to="/inicioSesion/"
+                                        to="/inicioSesion"
                                         className="AccountFooter-btn"
                                         data-reactid="49">
                                         <span data-reactid="50"
                                         >Iniciar Sesion
-                                    </span>
+                                    </span> <InicioSesionLink />
                                     </a>
                                 </div>
                             </FooterInicioSesion>
@@ -427,24 +383,24 @@ class PaginaRegistro extends Component {
                 </RegistroVista>
             </Registro>
     )};
-}
+};
 
 const mapDispatchToProps = {
     setUsuario,
     setInicioSesion,
-}
+};
+
+const FormRegistro =
+    withRouter((PaginaRegistro)
+);
 
 export default connect(null, mapDispatchToProps)(PaginaRegistro);
 
-const RegistroLink = () => (
+const InicioSesionLink = () => (
     <p>
-        No tiene aun una cuenta? 
-       <NavLink to="/registro/"> Registrase</NavLink>
+        Ya tiene una cuenta? 
+       <NavLink to="/inicioSesion"> Iniciar Sesion </NavLink>
     </p>
 );
 
-const FormRegistro =
-    withRouter((FormRegistro)
-    );
-
-export { FormRegistro, RegistroLink };
+export { FormRegistro, InicioSesionLink };

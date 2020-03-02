@@ -53,67 +53,66 @@ class Firebase extends Component {
         this.emailAuthProvider = new app.auth.EmailAuthProvider;
 
         /* Firebase APIs */
-        this.auth = app.auth();
-        this.db = app.database();
-        this.firestore = app.firestore();
-        this.storage = app.storage();
         this.auth = this.auth.bind(this);
         this.firestore = this.firestore.bind(this);       
         this.storage = this.storage.bind(this);
-        this.db = this.database.bind(this);
+        this.database = this.database.bind(this);
 
         app.firestore.settings({
             timestampsInSnapshots: true
         });
     };  
 
+    auth = app.auth();
+    database = app.database();
+    firestore = app.firestore();
+    storage = app.storage();
+    root = document.getElementById('root');
+    dbRef = app.database().ref().child('text');
+
+    // *** usuarios API ***
+    usuario = uid => this.dbRef(`usuarios/${uid}`);
+    usuarios = () => this.dbRef('usuarios');
+
     // Lenguaje del OAuth
     lenguaje = () => {
         app.auth().languageCode = 'es'
-    };
-        
-    root = document.getElementById('root');
-
-    dbRef = app.database().ref().child('text');
-   
+    };   
 
     // *** Auth API ***
+
+    doRegistroConEmailClave = (email, clave) => {
+        return this.auth.registroConEmailClave(email, clave);        
+    }
+    
+    async doInicioSesionConEmailClave (email, clave) {
+        await this.auth.inicioSesionConEmailClave(email, clave);
+        return this.auth.usuarioActual
+    }
+
     async register (name, email, clave) {
-        await this.auth.crearUsuarioConEmailClave(email, clave)
+         this.auth.registroConEmailClave(email, clave)
         return this.auth.usuarioActual.actualizarPerfil({
             displayName: name
         })
     };
-
-    doInicioSesion = (email, clave) => {
-        return this.auth.inicioSesionConEmailClave(email, clave)
-    };
-
-    doCrearUsuarioConEmailClave = (email, clave) =>
-        this.auth.crearUsuarioConEmailClave(email, clave);
-
-    doInicioSesionConEmailClave = (email, clave) =>
-        this.auth.inicioSesionConEmailClave(email, clave);
-
-    doRegistraConEmailClave = (email, clave) =>
-        this.auth.registroConEmailClave(email, clave);
-
-    doCerrarSesion = () => { return this.auth.cerrarSesion() };
-
+    
     async cerrarSesion() {
         await this.auth.cerrarSesion()
         this.props.history.push('/')
     };
 
-    doCambioClave = (email) => this.auth.envioEmailCambioClave(email);
-
-    doOlvidoClave = (email) => this.auth.envioEmailOlvidoClave(email);
+    doCambioClave = (email) =>
+        this.auth.correoCambioClave(email);
 
     doActualizarClave = (clave) =>
         this.auth.usuarioActual.actualizarClave(clave);
 
+    doOlvidoClave = (email) =>
+        this.auth.correoOlvidoClave(email);
+
     doEnviarEmailVerificacion = () =>
-        this.auth.usuarioActual.envioEmailVerificacion({
+        this.auth.usuarioActual.correoVerificacion({
             url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
         });
         
@@ -175,12 +174,6 @@ class Firebase extends Component {
                 fallback();
             }
         });
-
-    // *** usuarios API ***
-    usuario = uid => this.db.ref(`usuarios/${uid}`);
-    usuarios = () => this.db.ref('usuarios');
 }
 
 export default new Firebase();
-
-export { storage, database, auth };

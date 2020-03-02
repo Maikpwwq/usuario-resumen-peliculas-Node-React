@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-const Api = 'https://console.firebase.google.com/project//database/data/data';
+const Api = 'https://console.firebase.google.com/u/0/project/usuarios-resumen-peliculas/database/usuarios-resumen-peliculas/data';
 
 // React Hooks fetch(Url)
 
 const useGetData = () => {
-    const [db, setData] = useState([]);
+    const [DB, setData] = useState([]);
 
     useEffect(() => {
         fetch(Api)
@@ -12,7 +12,7 @@ const useGetData = () => {
             .then(data => setData(data))   
     }, []);
 
-    return db
+    return DB
 }
 
 export default useGetData;

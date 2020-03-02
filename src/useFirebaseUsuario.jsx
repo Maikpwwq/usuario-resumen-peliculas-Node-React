@@ -28,10 +28,12 @@ const useFirebaseUsuario = () => {
             if (usuario) {
                 this.props.setUsuario(usuario);
                 this.props.setInicioSesion(true);
+                console.log('Usuario')
+            } else {
+                console.log('Sin iniciar sesión aun');
             }
         });
     }, []);
-
 
     return firebaseInitialized;
 }; 

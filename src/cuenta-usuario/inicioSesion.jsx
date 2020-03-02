@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 // Firebase
-import { auth, database } from '../../init-firebase.js';
+import * as firebase from '../../init-firebase.js';
+
+// importar acciones
 import { setUsuario, setInicioSesion } from '../../actions/actions';
 
 // Cargar Paginas 
@@ -90,20 +92,15 @@ const FooterRegistro = styled.div`
     // ...
 })*/
 
-const ERROR_CODE_ACCOUNT_EXISTS =
-    'la-cuenta-existe-con-diferentes-credenciales';
+const ERROR_EMAIL_ACCOUNT_DOSENT_EXISTS =
+    'la dirección de correo electrónico que ha ingresado no existe en los registros';
 
-const ERROR_MSG_ACCOUNT_EXISTS = `
-  Una cuenta con una dirección de correo electrónico para
-  este perfil social ya existe. Intente iniciar sesión desde
-  esta cuenta y asociar sus cuentas en su página de perfil.
-`;
+const ERROR_CLAVE_ISNT_CORRECT = `
+  La contraseña con que intenta acceder a esta cuenta no concuerda con su Usuario.`;
 
 const ESTADO_REPOSO = {
     date: 'newDate',
-    nombre: 'nombre',
     email: 'email',
-    telefono: 'telefono',
     clave: 'clave',
 };
 
@@ -114,79 +111,67 @@ class PaginaInicioSesion extends Component {
         this.state = {
             txtEmail : document.getElementById('txtEmail'),
             txtClave: document.getElementById('txtClave'),
-            txtNombre: document.getElementById('txtNombre'),           
-            txtTelefono: document.getElementById('txtTelefono'),                      
             error: null,
         }               
-        this.btnInicioSesion = this.btnInicioSesion.bind(this);
         this.btnRegistro = this.btnRegistro.bind(this);
-        this.btnCerrarSesion = this.btnCerrarSesion.bind(this);
-        this.EnviarForm = this.EnviarForm.bind(this);
-
         this.onCambios = this.onCambios.bind(this);
-        this.onCargar = this.onCargar.bind(this);
         this.onEnviar = this.onEnviar.bind(this);       
     }
         
-    onCambios = (event) => {
+    onCambios = ('editando', (event) => {
+        // Get Email Clave
         const target = event.target;
-        const value = target.value;
-        const nombre = target.nombre;        
+        const value = target.value;     
         // El evento altera los datos guardados 
         this.setState({
             [nombre]: value
         });
         console.log(this.state, 'Escribiendo ...');
-    }; 
+    }); 
 
-    onEnviar = (event) => {
+    // Evento Iniciar Sesion       
+    onEnviar = ('inicio sesion', (event) => {
         //Previene que el formulario recargue la pagina
         event.preventDefault(); 
         console.log(this.state, 'Enviando la data ...');
-        alert('Se envio correctamente su solicitud: ' + this.state.value);
+        alert('Se envio correctamente su solicitud: ' + this.state.value);        
 
         this.props.firebase
             .doInicioSesionConEmailClave(email, clave)
+
             .then(() => {
                 this.setState({ ...ESTADO_REPOSO });
-                this.props.history.push('/inicio/');
+                this.props.history.push('/');
             })
             .catch(error => {
+                if (error.clave === ERROR_CLAVE_ISNT_CORRECT) {
+                    error.correo = ERROR_EMAIL_ACCOUNT_DOSENT_EXISTS;
+                }
+
                 this.setState({ error });
             });
         
         const form = new FormData(event.target);
         const newDate = new Date().toISOString();
         // const [fotoPerfil, setFotoPerfil] = usestate('');
-        const usuario = {            
-            'usuarioContact': this.props.usuario.email,
-            'usuarioName': this.props.usuario.displayName,
+        const usuario = {                        
             'date': newDate,
-            'nombre': form.get('nombre'),
             'email': form.get('email'),
-            'telefono': form.get('telefono'),
-            'clave':form.get('clave'),
+            'clave': form.get('clave'),
+            'usuarioContacto': this.props.usuario.email,
+            'usuarioClave': this.props.usuario.clave,
         }
 
-        database.ref('Usuarios').push(usuario)
+        this.props.firebase.database.ref('Usuarios').push(usuario)
             .then(response => console.log(response))
             .catch(error=> console.log(error))
-    };    
-
-    // Evento Iniciar Sesion    
-    btnInicioSesion = ('click', (event) => {
-        // Get Email and pass
-        const email = this.txtEmail.value;
-        const clave = this.txtClave.value;
-        // Sing in
-        const promise = auth.inicioSesionConEmailClave(email, clave);
-        promise.catch(e => console.log(e.mensaje));
-    });
+    });    
 
     // Evento de Registro
     btnRegistro = ('click', (event) => {
-        this.props.history.replace('/registro/')
-        .catch(e => console.log(e.mensaje));
+        event.preventDefault(); 
+        this.props.history.push('/registro')
+        promise.catch(e => console.log(e.mensaje));
     });
 
     //<!--  -->
@@ -197,9 +182,7 @@ class PaginaInicioSesion extends Component {
         const isInvalid = clave === '' || email === '';
 
         return (
-            <FormIniciarSesion
-                onSubmit={this.onEnviar}
-            >
+            <FormIniciarSesion>
                 <header id="header">
                     <div class="Header-container u-wrapper u-clearfix">
                         <span class="LoginDivider-text"
@@ -222,81 +205,78 @@ class PaginaInicioSesion extends Component {
                             <IniciarSesionConEmail
                                 data-reactid="5"
                                 onSubmit={this.onEnviar}
-                                action="/FormAcceso"
+                                action="/inicioSesion/?next="
                                 method="post"
                             >
-                                <form action="/inicioSesion/?next="
-                                    method="post" data-reactid="6">
+                                <input type="hidden"
+                                    name="csrfmiddlewaretoken"
+                                    value=""
+                                    data-reactid="7"
+                                />
 
-                                    <input type="hidden"
-                                        name="csrfmiddlewaretoken"
+                                <FormInput
+                                    data-reactid="8">
+                                    <input type="email"
+                                        name="email"
+                                        required=""
+                                        autocomplete="off"
+                                        placeholder="Tu email"
+                                        className="FormInput-field"
                                         value=""
-                                        data-reactid="7"
-                                    />
+                                        Id="txtEmail"
+                                        onChange={this.onCambios}
+                                        data-reactid="9" />
+                                    <label className="FormInput-label"
+                                        data-reactid="10">
+                                        <span data-reactid="11"
+                                        >Tu email</span>
+                                    </label>
+                                    <p className="FormInput-error"
+                                        data-reactid="12">
+                                    </p>
+                                </FormInput>
 
-                                    <FormInput
-                                        data-reactid="8">
-                                        <input type="email"
-                                            name="email" required=""
-                                            autocomplete="off"
-                                            placeholder="Tu email"
-                                            className="FormInput-field"
-                                            value=""
-                                            Id="txtEmail"
-                                            onChange={this.onCambios}
-                                            data-reactid="9" />
-                                        <label class="FormInput-label"
-                                            data-reactid="10">
-                                            <span data-reactid="11"
-                                            >Tu email</span>
-                                        </label>
-                                        <p className="FormInput-error"
-                                            data-reactid="12">
-                                        </p>
-                                    </FormInput>
+                                <FormInput
+                                    data-reactid="13">
+                                    <input type="password"
+                                        name="clave"
+                                        required=""
+                                        autocomplete="off"
+                                        placeholder="Tu contraseña"
+                                        className="FormInput-field"
+                                        value=""
+                                        Id="txtclave"
+                                        onChange={this.onCambios}
+                                        data-reactid="14" />
+                                    <label className="FormInput-label"
+                                        data-reactid="15">
+                                        <span data-reactid="16"
+                                        >Tu contraseña</span>
+                                    </label><p className="FormInput-error"
+                                        data-reactid="17">
+                                    </p>
+                                </FormInput>
 
+                                <BtnIniciar data-reactid="18"
+                                    disabled={isInvalid}
+                                    type="submit"
+                                    onSubmit={this.onEnviar}
+                                >
+                                    <span data-reactid="19"
+                                        Id="btnIniciarSesion"
+                                    >Inicia sesión</span>
+                                </BtnIniciar>
 
-                                    <FormInput
-                                        data-reactid="13">
-                                        <input type="password"
-                                            name="clave"
-                                            required=""
-                                            autocomplete="off"
-                                            placeholder="Tu contraseña"
-                                            className="FormInput-field"
-                                            value=""
-                                            Id="txtclave"
-                                            onChange={this.onCambios}
-                                            data-reactid="14" />
-                                        <label className="FormInput-label"
-                                            data-reactid="15">
-                                            <span data-reactid="16"
-                                            >Tu contraseña</span>
-                                        </label><p className="FormInput-error"
-                                            data-reactid="17">
-                                        </p>
-                                    </FormInput>
-
-                                    <BtnIniciar data-reactid="18"
-                                        disabled={isInvalid}
-                                        type="submit"
-                                    >
-                                        <span data-reactid="19"
-                                            Id="btnIniciarSesion"
-                                        >Inicia sesión</span>
-                                    </BtnIniciar>
-
-                                    <div className="IniciarSesionConEmail-lostclave"
-                                        data-reactid="20">
-                                        <a href="/olvidoClave/"
-                                            data-reactid="21">
-                                            <span data-reactid="22">
-                                                ¿Olvidaste tu contraseña?
-                                        </span> <OlvidoClaveLink/>
-                                        </a>
-                                    </div>
-                                </form>
-
+                                <div className="IniciarSesionConEmail-lostclave"
+                                    data-reactid="20">
+                                    <a href="/olvidoClave"
+                                        data-reactid="21">
+                                        <span data-reactid="22">
+                                            ¿Olvidaste tu contraseña?
+                                        </span> <OlvidoClaveLink />
+                                    </a>
+                                </div>
+                                    
                                 {error && <p>{error.mensaje}</p>}
 
                             </IniciarSesionConEmail>
@@ -316,7 +296,7 @@ class PaginaInicioSesion extends Component {
                                         className="AccountFooter-btn"
                                         Id="btnRegistro"                                        
                                         component={NavLink}
-                                        to="/registro/"
+                                        to="/registro"
                                         data-reactid="27">
                                         <span data-reactid="28"
                                         >Regístrate
@@ -338,4 +318,17 @@ const mapDispatchToProps = {
     setInicioSesion,
 }
 
+const FormInicioSesion =
+    withRouter((PaginaInicioSesion)
+    );
+
 export default connect(null, mapDispatchToProps)(PaginaInicioSesion);
+
+const RegistroLink = () => (
+    <p>
+        No tiene aun una cuenta?
+       <NavLink to="/registro"> Registrase</NavLink>
+    </p>
+);
+
+export { FormInicioSesion, RegistroLink };
