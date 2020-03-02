@@ -1,16 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\.git\\branches",
-    "\\.git\\info",
-    "\\.git\\logs",
-    "\\.git\\logs\\refs",
-    "\\.git\\refs",
-    "\\.git\\refs\\heads",
-    "\\.git\\refs\\tags",
-    "\\public",
-    "\\src\\peliculas"
+    "\\public"
   ],
-  "SelectedNode": "\\.gitignore",
+  "SelectedNode": "\\config.js",
   "PreviewInSolutionExplorer": false
 }

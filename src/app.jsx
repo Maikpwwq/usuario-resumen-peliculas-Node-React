@@ -32,6 +32,15 @@ app.use(express.json());
 app.use(express.static('src'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(flash());
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUnInitializad: false
+});
+app.use(passport.initialize());
+app.use(passport.session());
+
 //
 const port = process.env.PORT || 3000;
 
@@ -80,6 +89,70 @@ function onListening() {
     const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     debug('Escuchando en el puerto' + bind);
 }
+
+// Rutas
+// Get rutas
+router.get('/', checkAutentificacion, (req, res) => {
+        res.render('app.js', { name: req.user.name });
+    });
+
+email => users.find(user.email === email),
+    id => users.find(user.id === id),
+
+    router.get('/inicioSesion', (req, res) => {
+        res.render('inicioSesion.js');
+    });
+
+router.post('/inicioSesion', passport.authenticate('local', {
+    correcto: '/',
+    incorrecto: '/inicioSesion',
+    falloFlash: true
+}))
+
+// Get uno 
+
+
+// Creando uno
+
+
+// Actualizando uno
+router.patch('/:id', (req, res) => {
+
+});
+
+app.delete('/CerrarSesion', (req, res) => {
+    req.cerrarSesion();
+    res.redirect('/');
+});
+
+router.post('/registro', passport.authenticate, async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        users.push({
+            id: Date.now().toString(),
+            name: req.body.name,
+            email: req.doby.email,
+            password: hashedPassword
+        })
+        res.redirect('/inicioSesion')
+    } catch {
+        res.redirect('/registro')
+    }
+});
+
+function checkAutentificacion(req, res, next) {
+    if (req.estaAutentificado()) {
+        return next();
+    }
+    res.redirect('/iniciarSesion');
+};
+
+function checkNoAutentificacion(req, res, next) {
+    if (req.estaAutentificado()) {
+        return next()
+    }
+    res.redirect('/iniciarSesion')
+};
 
 //
 class App extends Component {

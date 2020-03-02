@@ -411,7 +411,7 @@ class PaginaRegistro extends Component {
                                 </div>
                                 <div class="AccountFooter-link"
                                     data-reactid="48">
-                                    <a href="/inicioSesion/"
+                                    <a href="/inicioSesion"
                                         component={NavLink}
                                         to="/inicioSesion/"
                                         className="AccountFooter-btn"

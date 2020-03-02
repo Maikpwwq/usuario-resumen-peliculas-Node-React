@@ -312,9 +312,9 @@ class PaginaInicioSesion extends Component {
 
                                 <div class="AccountFooter-link"
                                     data-reactid="26">
-                                    <a 
+                                    <a href='/registro'
                                         className="AccountFooter-btn"
-                                        Id="btnRegistro"
+                                        Id="btnRegistro"                                        
                                         component={NavLink}
                                         to="/registro/"
                                         data-reactid="27">
